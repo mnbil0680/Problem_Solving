@@ -1,39 +1,32 @@
 class Solution {
 public:
-    bool isValid(string s) {
-        const int CIRCLE_PAR = 81;
-        const int SQUARE_PAR = 184;
-        const int CURVY_PAR = 248;
+    bool isValid(std::string s) {
+        // Map to store matching pairs for each closing bracket
+        std::unordered_map<char, char> matchingBracket = {
+            {')', '('}, {'}', '{'}, {']', '['}};
 
-        if (s[0] == ')' || s[0] == '}' || s[0] == ']' || s.size() % 2 != 0) {
-            return false;
-        } else {
-            vector<char> v;
-            for (int i = 0; i < s.size(); i++) {
-                if (s[i] == '(' || s[i] == '{' || s[i] == '[') {
-                    v.push_back(s[i]);
-                } else {
-                    if (!v.empty()) {
-                        if (s[i] + v.back() == CIRCLE_PAR ||
-                            s[i] + v.back() == SQUARE_PAR ||
-                            s[i] + v.back() == CURVY_PAR) {
-                            v.pop_back();
-                        } else {
-                            v.insert(v.begin(), s[i]);
-                        }
+        // Stack to store opening brackets
+        std::stack<char> stk;
 
-                    } else {
-                        v.insert(v.begin(), s[i]);
-                    }
-
-                    // ]
-                }
+        // Traverse each character in the input string
+        for (char ch : s) {
+            // If it's an opening bracket, push it onto the stack
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stk.push(ch);
             }
-            if (v.empty()) {
-                return true;
-            } else {
-                return false;
+            // If it's a closing bracket, check if it matches the top of the
+            // stack
+            else {
+                // If the stack is empty or the top doesn't match, return false
+                if (stk.empty() || stk.top() != matchingBracket[ch]) {
+                    return false;
+                }
+                // Pop the matched opening bracket from the stack
+                stk.pop();
             }
         }
+
+        // If the stack is empty, all brackets were matched correctly
+        return stk.empty();
     }
 };
