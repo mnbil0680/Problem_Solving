@@ -15,19 +15,19 @@ public:
     }
 
     char kthCharacter(int k) {
-        string word = "a";
-        while(word.size()<k){
-            string newString = "";
-
-            // Generate the new string by changing each character to its next alphabet letter
-            for (char c : word) {
-                newString += (c == 'z') ? 'a' : c + 1;
+        string s="a";
+        while(k>=s.size())
+        {
+            string up="";
+            for(int i=0;i<s.size();i++)
+            {
+               char m=s[i]+1; 
+                up+=m;
             }
-
-            // Append the newly generated string to the original word
-            word += newString;
+            s+=up;
         }
-        return word[k-1];
+       char ans=s[k-1];
+        return ans;  
     }
     /*
     Another approach 
